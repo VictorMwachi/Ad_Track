@@ -26,17 +26,19 @@ module.exports = (sequelize, DataTypes) => {
       unique:true,
       allowNull:false
     },
-    created_at:{
+    createdAt:{
       type:DataTypes.DATE,
-      defaultValue:Sequelize.NOW
+      allowNull:false
     },
-    updated_at:{
+    updatedAt:{
       type:DataTypes.DATE,
-      defaultValue:Sequelize.NOW
+      allowNull:false
     },
   }, {
     sequelize,
     modelName: 'AdminUser',
+    tableName: 'admin_users',
+    underscored: true 
   });
   return AdminUser;
 };
