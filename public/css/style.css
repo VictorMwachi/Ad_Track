@@ -4,3 +4,25 @@
     align-content: center;
     text-align: center;
 }
+.row{
+    justify-content: center;
+}
+
+.form-signin{
+    margin: 50px;
+}
+
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  
+  .form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  .form-signin input checkbox{
+    margin-bottom: 3px;
+  }
