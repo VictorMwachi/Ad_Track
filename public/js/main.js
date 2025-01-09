@@ -11,8 +11,10 @@ loginForm.addEventListener("submit", async (e) => {
   } 
   else {
     // perform operation with form input
-    const formData = {"email":email.value,"password":password.value};
-    console.log(formData)
+    const formData = {
+        "email":email.value,
+        "password":password.value
+    };
 
     fetch("/auth",{
         method:"POST",
@@ -21,8 +23,7 @@ loginForm.addEventListener("submit", async (e) => {
         },
         body:JSON.stringify(formData)
     })
-    alert("This form has been successfully submitted!");
-    
+        
     email.value = "";
     password.value = "";
   }

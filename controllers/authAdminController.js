@@ -1,10 +1,11 @@
 const { AdminUser } = require('../models');
 const bcrypt = require('bcryptjs')
 const handleAdminLogin = async (req,res)=>{
-    console.log(req.body)
+    
     const {email,password} = req.body;
     if(!email || !password){
-        return res.status(401).json("username or password cannot be empty")
+        res.status(401).json("username or password cannot be empty")
+        return res.redirect('/login')
     }
     const adminuser = await AdminUser.findOne({where:{email:email}})
 
@@ -15,7 +16,10 @@ const handleAdminLogin = async (req,res)=>{
     const match = await bcrypt.compare(password,adminuser.password);
     if(!match){return res.status(401).json({"message":"Incorrect Password.Kindly try again"})}
     else{
-        return res.json({"message":`Success ${adminuser.email} ${adminuser.username} logged in`})
+        req.app.locals.login=true
+        req.session.user={"username":adminuser.username}  
+        console.log(req.session.user,req.session.user_sid)  
+        return res.redirect('/admin')//json({"message":`Success ${adminuser.email} ${adminuser.username} logged in`})
     }
 
 }
