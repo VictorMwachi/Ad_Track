@@ -1,13 +1,13 @@
 require('dotenv').config();
-const secretKey = process.env.SECRET_KEY;
 const session = require('express-session');
 session({
     key:'user_sid',
-    secret:secretKey,
+    secret:process.env.SECRET_KEY,
     resave:false,
-    saveUninitialized:true,
+    saveUninitialized:false,
     cookie:{
-        expires:300
+        secure: process.env.NODE_ENV === 'production',
+        maxAge:5 * 60
     }
 })
 
