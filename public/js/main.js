@@ -23,6 +23,20 @@ loginForm.addEventListener("submit", async (e) => {
         },
         body:JSON.stringify(formData)
     })
+    .then(res=>res.json())
+    .then((data)=>{
+      if(data.success){
+        window.location.href = data.redirectUrl;
+      }
+      else{
+        //Show error message to user
+        displayError(data.message);
+      }
+    })
+    .catch(err=>{
+      //network error
+      displayError("Network Error occurred!")
+    })
         
     email.value = "";
     password.value = "";
