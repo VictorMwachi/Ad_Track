@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
-const session = require('express-session')
 const cookieParser = require('cookie-parser');
+const sessionMiddleware = require('./middleware/session.js');
 const app = express();
 require('dotenv').config();
 const PORT = process.env.PORT || 3500;
@@ -12,16 +12,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 //session
-app.use(session({
-    key:'user_sid',
-    secret:process.env.SECRET_KEY,
-    resave:false,
-    saveUninitialized:false,
-    cookie:{
-        secure: false,
-        maxAge: 5 * 60 * 1000
-    }
-}))
+app.use(sessionMiddleware)
 
 app.locals.login = false;
 
