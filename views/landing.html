@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GCLID Test</title>
+</head>
+<body>
+    <h1>Welcome to the GCLID Test Page</h1>
+    <p>If you clicked on a simulated ad, your GCLID will be captured below.</p>
+    <form method="POST" action="/capture">
+        <label for="gclid">Captured GCLID:</label>
+        <input type="text" id="gclid" name="gclid" readonly>
+        <button type="submit">Submit GCLID</button>
+    </form>
+
+    <script>
+        // Capture gclid from URL and populate the form
+        const urlParams = new URLSearchParams(window.location.search);
+        const gclid = urlParams.get('gclid');
+
+        if (gclid) {
+            document.getElementById('gclid').value = gclid;
+            console.log(gclid)
+
+            // Optionally store it in a cookie
+            document.cookie = `gclid=${gclid}; path=/; max-age=${60 * 60 * 24 * 30}`;
+        } else {
+            console.log('No GCLID found in the URL.');
+        }
+    </script>
+</body>
+</html>

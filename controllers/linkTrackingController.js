@@ -62,36 +62,53 @@ class TrackingSytem {
     }
     //Track click and redirect
     static async handleClick(req, res) {
-        const { tid } = req.query;
-        const gclid = req.query.gclid;
+        try {
+            const { tid } = req.query;
+            const gclid = req.query.gclid;
 
-        const trackingLink = await TrackingLink.findOne({
-            where:{ trackingId:tid }
-        });
-        //check if tracking url exists in db
-        if(!trackingLink){
-            return res.status(404).json({
-                success:false,
-                message:"Tracking link not found!"                
+            const trackingLink = await TrackingLink.findOne({
+                where:{ trackingId:tid }
             });
-        }
-        await ClickData.create({
-            trackingId:tid,
-            gclid,
-            ipAddress:req.ip,
-            userAgent:req.headers["user-agent"],
-            referrer:req.headers.referer,
-            timestamp: new Date()
+            //check if tracking url exists in db
+            if(!trackingLink){
+                return res.status(404).json({
+                    success:false,
+                    message:"Tracking link not found!"                
+                });
+            }
+            await ClickData.create({
+                trackingId:tid,
+                gclid,
+                ipAddress:req.ip,
+                userAgent:req.headers["user-agent"],
+                referrer:req.headers.referer,
+                timestamp: new Date()
 
+            });
+
+            // Build final redirect URL
+            const finalUrl = new URL(trackingLink.destinationUrl);
+                
+            // Append GCLID if present
+            if (gclid) {
+                finalUrl.searchParams.append('gclid', gclid);
+            }
+            // Append original UTM parameters
+            for (const [key, value] of Object.entries(req.query)) {
+                if (key.startsWith('utm_')) {
+                    finalUrl.searchParams.append(key, value);
+                }
+            }
+
+            return res.redirect(finalUrl.toString());
+    }
+    catch(error){
+        console.error('Error handling click:', error);
+        return res.status(500).json({
+                success: false,
+                message: 'Error processing tracking link'
         });
-
-        // Build final redirect URL
-        const finalUrl = new URL(trackingLink.destinationUrl);
-            
-        // Append GCLID if present
-        if (gclid) {
-            finalUrl.searchParams.append('gclid', gclid);
-        }
+    }
 
     }
 

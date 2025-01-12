@@ -20,4 +20,10 @@ router.get('/admin', (req,res,next)=>{
 router.get('/login', (req,res)=>{
     res.sendFile(path.join(__dirname,'..','views','login.html'));
 })
+router.get('/landing', (req,res)=>{
+    res.sendFile(path.join(__dirname,'..','views','landing.html'));
+})
+router.post('/capture',(req,res)=>{
+    console.log(req.body.gclid)
+})
 module.exports = router
