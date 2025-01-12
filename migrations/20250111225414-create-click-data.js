@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('tracking_link', {
+    await queryInterface.createTable('click_data', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,23 +11,26 @@ module.exports = {
       },
       trackingId: {
         type: Sequelize.STRING,
-        allowNull:false,
-        unique:true
+        allowNull:false
       },
-      destinationUrl: {
-        type: Sequelize.TEXT        
+      gclid: {
+        type: Sequelize.STRING,
+        unique:true,
+        allowNull:false
       },
-      campaignId: {
+      ipAdress: {
+        type: Sequelize.STRING,
+        allowNull:false
+      },
+      userAgent: {
         type: Sequelize.STRING
       },
-      source: {
+      referrer: {
         type: Sequelize.STRING
       },
-      medium: {
-        type: Sequelize.STRING
-      },
-      customParams: {
-        type: Sequelize.JSON
+      timestamp: {
+        type:Sequelize.DATE,
+        allowNull:false
       },
       createdAt: {
         allowNull: false,
@@ -40,6 +43,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('tracking_link');
+    await queryInterface.dropTable('click_data');
   }
 };
