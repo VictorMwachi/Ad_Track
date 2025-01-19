@@ -26,3 +26,9 @@
   .form-signin input checkbox{
     margin-bottom: 3px;
   }
+  .card{
+    margin: 10px;
+  }
+  .card:hover{
+    cursor: pointer;
+  }

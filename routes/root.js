@@ -26,4 +26,7 @@ router.get('/landing', (req,res)=>{
 router.post('/capture',(req,res)=>{
     console.log(req.body.gclid)
 })
+router.get('/adsite',(req,res)=>{
+    res.sendFile(path.join(__dirname,'..','views','adsite.html'));
+})
 module.exports = router
